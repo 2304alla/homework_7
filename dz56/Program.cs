@@ -34,32 +34,48 @@ void PrintMatrix(int[,] matrix)
 
 }
 
-double[] MeanSumColumns(int[,] matrix)
+int[] MeanSumColumns(int[,] matrix)
 {
-    double[] array = new double[matrix.GetLength(1)];
+    int[] array = new int[matrix.GetLength(0)];
     for (int i = 0; i < matrix.GetLength(0); i++)
     {
-        double sum = 0;
+        int sum = 0;
         for (int j = 0; j < matrix.GetLength(1); j++)
         {
             sum += matrix[i, j];
 
         }
-        
-        array[j] = Math.Round(sum, 1);
+        array[i] = sum;
     }
     return array;
 }
 
-void PrintArray(double[] array)
+void PrintArray(int[] array)
 {
-    Console.Write("[");
+    Console.Write("");
     for (int i = 0; i < array.Length; i++)
     {
         if (i < array.Length - 1) Console.Write($"{array[i]}; ");
         else Console.Write($"{array[i]}");
     }
-    Console.WriteLine("]");
+    Console.WriteLine("");
+}
+
+int MinSumArray(int[] array)
+{
+    int min = array[0];
+    int indexer = 0;
+    for (int i = 1; i < array.Length; i++)
+    {
+
+        if (array[i] < min)
+        {
+            min = array[i];
+            indexer = i;
+        }
+    }
+
+    return indexer + 1;
 }
 
 Console.WriteLine("Ведите колличесво строк: ");
@@ -68,11 +84,17 @@ int m = Convert.ToInt32(Console.ReadLine());
 Console.WriteLine("Ведите колличесто столбцов: ");
 int n = Convert.ToInt32(Console.ReadLine());
 
-if(m>n) int[,] matr = CreateMatrix(m, n, 1, 9);
-else Console.WriteLine("Колличсево строк должно быть больше");
+if (m < n) Console.WriteLine("Колличсево строк должно быть больше");
+else
+{
+    int[,] matr = CreateMatrix(m, n, 1, 9);
+    PrintMatrix(matr);
+    Console.WriteLine();
 
-PrintMatrix(matr);
-Console.WriteLine();
-
-double arr = MeanSumColumns(matr);
-PrintArray(arr);
+    int[] arr = MeanSumColumns(matr);
+    Console.WriteLine("Сумма элементов каждой строки");
+    PrintArray(arr);
+    Console.WriteLine();
+    int minSum = MinSumArray(arr);
+    Console.WriteLine($"Минимальная сумма в {minSum} строке ");
+}
